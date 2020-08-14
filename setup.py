@@ -1,18 +1,26 @@
 from setuptools import setup, find_packages
 
 reqs = [
+    "h5py",
+    "jupyterlab",
     "matplotlib",
     "numpy",
     "pandas",
-    "sklearn",
+    "pillow",
+    "scipy",
+    "scikit-learn",
     "yaml"
 ]
 
 conda_reqs = [
+    "h5py",
+    "jupyterlab",
     "matplotlib",
     "numpy",
     "pandas",
-    "sklearn",
+    "pillow",
+    "scipy",
+    "scikit-learn",
     "yaml"
 ]
 
