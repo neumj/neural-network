@@ -1,5 +1,7 @@
 import numpy as np
 from shallownn import forward
+from shallownn import back_prop
+import matplotlib.pyplot as plt
 
 def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):
     """
@@ -46,7 +48,7 @@ def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000
 
         # Compute cost
         ### START CODE HERE ### (≈ 1 line of code)
-        cost = compute_cost(A2, Y)
+        cost = forward.compute_cost(A2, Y)
         ### END CODE HERE ###
 
         # Initializing backward propagation
@@ -54,8 +56,8 @@ def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000
 
         # Backward propagation. Inputs: "dA2, cache2, cache1". Outputs: "dA1, dW2, db2; also dA0 (not used), dW1, db1".
         ### START CODE HERE ### (≈ 2 lines of code)
-        dA1, dW2, db2 = linear_activation_backward(dA2, cache2, 'sigmoid')
-        dA0, dW1, db1 = linear_activation_backward(dA1, cache1, 'relu')
+        dA1, dW2, db2 = back_prop.linear_activation_backward(dA2, cache2, 'sigmoid')
+        dA0, dW1, db1 = back_prop.linear_activation_backward(dA1, cache1, 'relu')
         ### END CODE HERE ###
 
         # Set grads['dWl'] to dW1, grads['db1'] to db1, grads['dW2'] to dW2, grads['db2'] to db2
@@ -66,7 +68,7 @@ def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000
 
         # Update parameters.
         ### START CODE HERE ### (approx. 1 line of code)
-        parameters = update_parameters(parameters, grads, learning_rate)
+        parameters = back_prop.update_parameters(parameters, grads, learning_rate)
         ### END CODE HERE ###
 
         # Retrieve W1, b1, W2, b2 from parameters
