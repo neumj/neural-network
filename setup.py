@@ -27,10 +27,10 @@ conda_reqs = [
 test_pkgs = []
 
 setup(
-    name="shallownn",
+    name="deepnn",
     python_requires='>3.4',
     description="Package for neural network experimentation",
-    url="https://github.com/neumj/shallow-network",
+    url="https://github.com/neumj/neural-network",
     install_requires=reqs,
     conda_install_requires=conda_reqs,
     test_requires=test_pkgs,

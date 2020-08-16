@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from shallownn import forward
+from deepnn import forward_prop
 
 def predict(X, y, parameters):
     """
@@ -19,7 +19,7 @@ def predict(X, y, parameters):
     p = np.zeros((1 ,m))
 
     # Forward propagation
-    probas, caches = forward.L_model_forward(X, parameters)
+    probas, caches = forward_prop.L_model_forward(X, parameters)
 
 
     # convert probas to 0/1 predictions

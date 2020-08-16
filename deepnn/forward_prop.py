@@ -1,5 +1,5 @@
 import numpy as np
-from shallownn import activations
+from deepnn import activations
 
 
 def initialize_parameters(n_x, n_h, n_y):

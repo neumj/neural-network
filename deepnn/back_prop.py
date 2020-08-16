@@ -1,5 +1,5 @@
 import numpy as np
-from shallownn import activations
+from deepnn import activations
 
 
 def linear_backward(dZ, cache):
