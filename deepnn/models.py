@@ -1,6 +1,6 @@
 import numpy as np
-from shallownn import forward
-from shallownn import back_prop
+from deepnn import forward_prop
+from deepnn import back_prop
 import matplotlib.pyplot as plt
 
 def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):
@@ -27,7 +27,7 @@ def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000
 
     # Initialize parameters dictionary, by calling one of the functions you'd previously implemented
     ### START CODE HERE ### (≈ 1 line of code)
-    parameters = forward.initialize_parameters(n_x, n_h, n_y)
+    parameters = forward_prop.initialize_parameters(n_x, n_h, n_y)
     ### END CODE HERE ###
 
     # Get W1, b1, W2 and b2 from the dictionary parameters.
@@ -42,13 +42,13 @@ def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000
 
         # Forward propagation: LINEAR -> RELU -> LINEAR -> SIGMOID. Inputs: "X, W1, b1, W2, b2". Output: "A1, cache1, A2, cache2".
         ### START CODE HERE ### (≈ 2 lines of code)
-        A1, cache1 = forward.linear_activation_forward(X, W1, b1, 'relu')
-        A2, cache2 = forward.linear_activation_forward(A1, W2, b2, 'sigmoid')
+        A1, cache1 = forward_prop.linear_activation_forward(X, W1, b1, 'relu')
+        A2, cache2 = forward_prop.linear_activation_forward(A1, W2, b2, 'sigmoid')
         ### END CODE HERE ###
 
         # Compute cost
         ### START CODE HERE ### (≈ 1 line of code)
-        cost = forward.compute_cost(A2, Y)
+        cost = forward_prop.compute_cost(A2, Y)
         ### END CODE HERE ###
 
         # Initializing backward propagation
