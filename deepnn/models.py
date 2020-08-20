@@ -28,7 +28,7 @@ def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000
 
     # Initialize parameters dictionary, by calling one of the functions you'd previously implemented
     ### START CODE HERE ### (≈ 1 line of code)
-    parameters = initializations.initialize_parameters(n_x, n_h, n_y)
+    parameters = initializations.initialize_parameters_2L(n_x, n_h, n_y)
     ### END CODE HERE ###
 
     # Get W1, b1, W2 and b2 from the dictionary parameters.
@@ -117,6 +117,9 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
     # Parameters initialization. (≈ 1 line of code)
     ### START CODE HERE ###
     parameters = initializations.initialize_parameters_deep(layers_dims)
+    #parameters = initializations.initialize_parameters_he(layers_dims)
+    #parameters = initializations.initialize_parameters_zeros(layers_dims)
+    #parameters = initializations.initialize_parameters_random(layers_dims)
     ### END CODE HERE ###
 
     # Loop (gradient descent)
