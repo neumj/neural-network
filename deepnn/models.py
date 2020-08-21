@@ -95,7 +95,7 @@ def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000
     return parameters
 
 
-def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):  # lr was 0.009
+def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False, initialization = "he"):  # lr was 0.009
     """
     Implements a L-layer neural network: [LINEAR->RELU]*(L-1)->LINEAR->SIGMOID.
 
@@ -116,10 +116,14 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
 
     # Parameters initialization. (≈ 1 line of code)
     ### START CODE HERE ###
-    parameters = initializations.initialize_parameters_deep(layers_dims)
-    #parameters = initializations.initialize_parameters_he(layers_dims)
-    #parameters = initializations.initialize_parameters_zeros(layers_dims)
-    #parameters = initializations.initialize_parameters_random(layers_dims)
+    if initialization == "zeros":
+        parameters = initializations.initialize_parameters_zeros(layers_dims)
+    elif initialization == "random":
+        parameters = initializations.initialize_parameters_random(layers_dims)
+    elif initialization == "he":
+        parameters = initializations.initialize_parameters_he(layers_dims)
+    elif initialization == "deep":
+        parameters = initializations.initialize_parameters_deep(layers_dims)
     ### END CODE HERE ###
 
     # Loop (gradient descent)
@@ -146,9 +150,9 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
         ### END CODE HERE ###
 
         # Print the cost every 100 training example
-        if print_cost and i % 100 == 0:
+        if print_cost and i % 500 == 0:
             print ("Cost after iteration %i: %f" % (i, cost))
-        if print_cost and i % 100 == 0:
+        if print_cost and i % 500 == 0:
             costs.append(cost)
 
     # plot the cost

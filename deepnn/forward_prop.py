@@ -78,6 +78,25 @@ def compute_cost(AL, Y):
     return cost
 
 
+def compute_loss(AL, Y):
+    """
+    Implement the loss function
+
+    Arguments:
+    AL -- post-activation, output of forward propagation
+    Y -- "true" labels vector, same shape as a3
+
+    Returns:
+    loss - value of the loss function
+    """
+
+    m = Y.shape[1]
+    logprobs = np.multiply(-np.log(AL), Y) + np.multiply(-np.log(1 - AL), 1 - Y)
+    loss = 1. / m * np.nansum(logprobs)
+
+    return loss
+
+
 def L_model_forward(X, parameters):
     """
     Implement forward propagation for the [LINEAR->RELU]*(L-1)->LINEAR->SIGMOID computation

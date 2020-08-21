@@ -109,7 +109,7 @@ def initialize_parameters_random(layers_dims):
 
     for l in range(1, L):
         ### START CODE HERE ### (≈ 2 lines of code)
-        parameters['W' + str(l)] = np.random.randn(layers_dims[l], layers_dims[l - 1]) * 0.1
+        parameters['W' + str(l)] = np.random.randn(layers_dims[l], layers_dims[l - 1])
         parameters['b' + str(l)] = np.zeros((layers_dims[l], 1))
         ### END CODE HERE ###
 
@@ -127,7 +127,7 @@ def initialize_parameters_deep(layer_dims):
                     bl -- bias vector of shape (layer_dims[l], 1)
     """
 
-    np.random.seed(1)
+    #np.random.seed(1)
     parameters = {}
     L = len(layer_dims)  # number of layers in the network
 

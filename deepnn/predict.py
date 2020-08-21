@@ -37,6 +37,24 @@ def predict(X, y, parameters):
     return p
 
 
+def predict_dec(parameters, X):
+    """
+    Used for plotting decision boundary.
+
+    Arguments:
+    parameters -- python dictionary containing your parameters
+    X -- input data of size (m, K)
+
+    Returns
+    predictions -- vector of predictions of our model (red: 0 / blue: 1)
+    """
+
+    # Predict using forward propagation and a classification threshold of 0.5
+    a3, cache = forward_prop.L_model_forward(X, parameters)
+    predictions = (a3 > 0.5)
+    return predictions
+
+
 def print_mislabeled_images(classes, X, y, p):
     """
     Plots images where predictions and truth were different.
