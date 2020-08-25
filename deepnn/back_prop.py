@@ -2,7 +2,7 @@ import numpy as np
 from deepnn import activations
 
 
-def L_model_backward(AL, Y, caches):
+def L_model_backward(AL, Y, caches, lambd = 0):
     """
     Implement the backward propagation for the [LINEAR->RELU] * (L-1) -> LINEAR -> SIGMOID group
 
@@ -29,15 +29,26 @@ def L_model_backward(AL, Y, caches):
 
     # Lth layer (SIGMOID -> LINEAR) gradients. Inputs: "AL, Y, caches". Outputs: "grads["dAL"], grads["dWL"], grads["dbL"]
     current_cache = caches[L - 1]
-    grads["dA" + str(L - 1)], grads["dW" + str(L)], grads["db" + str(L)] = linear_activation_backward(dAL,
+    if lambd == 0:
+        grads["dA" + str(L - 1)], grads["dW" + str(L)], grads["db" + str(L)] = linear_activation_backward(dAL,
                                                                                                       current_cache,
                                                                                                       activation="sigmoid")
+    else:
+        grads["dA" + str(L - 1)], grads["dW" + str(L)], grads["db" + str(L)] = linear_activation_backward(dAL,
+                                                                                                      current_cache,
+                                                                                                      activation="sigmoid", lambd = 0.7)
 
     for l in reversed(range(L - 1)):
         # lth layer: (RELU -> LINEAR) gradients.
         current_cache = caches[l]
-        dA_prev_temp, dW_temp, db_temp = linear_activation_backward(grads["dA" + str(l + 1)], current_cache,
-                                                                    activation="relu")
+        #print(current_cache)
+        if lambd == 0:
+            dA_prev_temp, dW_temp, db_temp = linear_activation_backward(grads["dA" + str(l + 1)], current_cache,
+                                                                        activation="relu")
+        else:
+            dA_prev_temp, dW_temp, db_temp = linear_activation_backward(grads["dA" + str(l + 1)], current_cache,
+                                                                        activation="relu", lambd = 0.7)
+
         grads["dA" + str(l)] = dA_prev_temp
         grads["dW" + str(l + 1)] = dW_temp
         grads["db" + str(l + 1)] = db_temp
@@ -45,34 +56,7 @@ def L_model_backward(AL, Y, caches):
     return grads
 
 
-def linear_backward(dZ, cache):
-    """
-    Implement the linear portion of backward propagation for a single layer (layer l)
-
-    Arguments:
-    dZ -- Gradient of the cost with respect to the linear output (of current layer l)
-    cache -- tuple of values (A_prev, W, b) coming from the forward propagation in the current layer
-
-    Returns:
-    dA_prev -- Gradient of the cost with respect to the activation (of the previous layer l-1), same shape as A_prev
-    dW -- Gradient of the cost with respect to W (current layer l), same shape as W
-    db -- Gradient of the cost with respect to b (current layer l), same shape as b
-    """
-    A_prev, W, b = cache
-    m = A_prev.shape[1]
-
-    dW = 1./m * np.dot(dZ ,A_prev.T)
-    db = 1./m * np.sum(dZ, axis = 1, keepdims = True)
-    dA_prev = np.dot(W.T ,dZ)
-
-    assert (dA_prev.shape == A_prev.shape)
-    assert (dW.shape == W.shape)
-    assert (db.shape == b.shape)
-
-    return dA_prev, dW, db
-
-
-def linear_activation_backward(dA, cache, activation):
+def linear_activation_backward(dA, cache, activation, lambd = 0):
     """
     Implement the backward propagation for the LINEAR->ACTIVATION layer.
 
@@ -90,11 +74,38 @@ def linear_activation_backward(dA, cache, activation):
 
     if activation == "relu":
         dZ = activations.relu_backward(dA, activation_cache)
-        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache, lambd = 0.7)
 
     elif activation == "sigmoid":
         dZ = activations.sigmoid_backward(dA, activation_cache)
-        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache, lambd = 0.7)
+
+    return dA_prev, dW, db
+
+
+def linear_backward(dZ, cache, lambd = 0):
+    """
+    Implement the linear portion of backward propagation for a single layer (layer l)
+
+    Arguments:
+    dZ -- Gradient of the cost with respect to the linear output (of current layer l)
+    cache -- tuple of values (A_prev, W, b) coming from the forward propagation in the current layer
+
+    Returns:
+    dA_prev -- Gradient of the cost with respect to the activation (of the previous layer l-1), same shape as A_prev
+    dW -- Gradient of the cost with respect to W (current layer l), same shape as W
+    db -- Gradient of the cost with respect to b (current layer l), same shape as b
+    """
+    A_prev, W, b = cache
+    m = A_prev.shape[1]
+
+    dW = 1./m * np.dot(dZ ,A_prev.T) + ((0.7 / m) * W)
+    db = 1./m * np.sum(dZ, axis = 1, keepdims = True)
+    dA_prev = np.dot(W.T ,dZ)
+
+    assert (dA_prev.shape == A_prev.shape)
+    assert (dW.shape == W.shape)
+    assert (db.shape == b.shape)
 
     return dA_prev, dW, db
 
