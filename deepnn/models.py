@@ -139,12 +139,16 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
         if lambd == 0:
             cost = forward_prop.compute_loss(AL, Y)
         else:
-            compute_loss_with_regularization(AL, Y, parameters, lambd)
+            cost = forward_prop.compute_loss_with_regularization(AL, Y, parameters, lambd)
         ### END CODE HERE ###
 
         # Backward propagation.
         ### START CODE HERE ### (≈ 1 line of code)
-        grads = back_prop.L_model_backward(AL, Y, caches)
+        if lambd == 0:
+            grads = back_prop.L_model_backward(AL, Y, caches)
+        else:
+            grads = back_prop.L_model_backward(AL, Y, caches, lambd = lambd)
+
         ### END CODE HERE ###
 
         # Update parameters.
